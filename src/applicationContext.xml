@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <property name="location" value="classpath:properties/database.properties"></property>
+</bean>
+
+
+<!-- 配置数据源 -->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName">
+            <value>${driver}</value>
+        </property>
+        <property name="url">
+            <value>${url}?useUnicode=true&amp;characterEncoding=UTF-8</value>
+        </property>
+        <property name="username">
+            <value>${username}</value>
+        </property>
+        <property name="password">
+            <value>${password}</value>
+        </property>
+</bean>
+
+
+ 
+<!-- sessionFactory的配置 -->
+<bean class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+	id="sessionFactory">
+	<property name="dataSource">
+		<ref local="dataSource"></ref>
+	</property>
+	<!-- 为sessionFactory配置Hibernate属性 -->
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.dialect">			
+				<!-- org.hibernate.dialect.HSQLDialect -->
+				org.hibernate.dialect.MySQL5Dialect
+   			 </prop>
+			<prop key="hibernate.show_sql">true</prop>
+			<prop key="hibernate.connection.autocommit">false</prop>
+			<prop key="hibernate.cache.use_query_cache">false</prop>
+			<prop key="hibernate.max_fetch_depth">2</prop>
+			<prop key="hibernate.bytecode.use_reflection_optimizer">
+				true
+    		</prop>
+		</props>
+	</property>
+	
+	
+	<!--+++++++++++++++++++++++++++++自定义+++++++++++++++++++++++ -->
+	
+	<property name="mappingResources">
+	  <list>
+	  	<value>com/base/bean/ActivityBase.hbm.xml</value>
+	  	<value>com/base/bean/ActivityExtend.hbm.xml</value>
+	  	<value>com/base/bean/ActivityGps.hbm.xml</value>
+	  	<value>com/base/bean/ActivityImage.hbm.xml</value>
+	  	<value>com/base/bean/ActivityUser.hbm.xml</value>
+	  	<value>com/base/bean/ClientArea.hbm.xml</value>
+	  	<value>com/base/bean/ClientBase.hbm.xml</value>
+	  	<value>com/base/bean/ClientDeal.hbm.xml</value>
+	  	<value>com/base/bean/ClientExtend.hbm.xml</value>
+	  	<value>com/base/bean/ClientGps.hbm.xml</value>
+	  	
+	  	<value>com/base/bean/ClientJudge.hbm.xml</value>
+	  	<value>com/base/bean/ClientLevel.hbm.xml</value>
+	  	<value>com/base/bean/ClientName.hbm.xml</value>
+	  	<value>com/base/bean/ClientOwner.hbm.xml</value>
+	  	<value>com/base/bean/ClientPhone.hbm.xml</value>
+	  	<value>com/base/bean/ClientTixing.hbm.xml</value>
+	  	<value>com/base/bean/ObjAttribute.hbm.xml</value>
+	  	<value>com/base/bean/ObjEnum.hbm.xml</value>
+	  	<value>com/base/bean/ObjEnumStr.hbm.xml</value>
+	  	<value>com/base/bean/ObjName.hbm.xml</value>
+	  	
+	  	<value>com/base/bean/ObjVersion.hbm.xml</value>
+	  	<value>com/base/bean/ObjVersionWaste.hbm.xml</value>
+	  	<value>com/base/bean/SyncPool.hbm.xml</value>
+	  	<value>com/base/bean/SysAdArea.hbm.xml</value>
+	  	<value>com/base/bean/SysAdCity.hbm.xml</value>
+	  	<value>com/base/bean/SysAdProvince.hbm.xml</value>
+	  	<value>com/base/bean/SysMsg.hbm.xml</value>
+	  	<value>com/base/bean/SysOrg.hbm.xml</value>
+	  	<value>com/base/bean/SysWechat.hbm.xml</value>
+	  	<value>com/base/bean/UserArea.hbm.xml</value>
+	  	
+	  	<value>com/base/bean/UserBase.hbm.xml</value>
+	  	<value>com/base/bean/UserCheckwork.hbm.xml</value>
+	  	<value>com/base/bean/UserExtend.hbm.xml</value>
+	  	<value>com/base/bean/ObjHistory.hbm.xml</value>
+	  	
+	  </list>
+		
+		
+	</property>
+
+</bean>
+
+
+<bean id="ActivityBaseDao" class="com.base.dao.ActivityBaseDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ActivityExtendDao" class="com.base.dao.ActivityExtendDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ActivityGpsDao" class="com.base.dao.ActivityGpsDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ActivityImageDao" class="com.base.dao.ActivityImageDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ActivityUserDao" class="com.base.dao.ActivityUserDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientAreaDao" class="com.base.dao.ClientAreaDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientBaseDao" class="com.base.dao.ClientBaseDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientDealDao" class="com.base.dao.ClientDealDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientExtendDao" class="com.base.dao.ClientExtendDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientGpsDao" class="com.base.dao.ClientGpsDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+
+<bean id="ClientJudgeDao" class="com.base.dao.ClientJudgeDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientLevelDao" class="com.base.dao.ClientLevelDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientNameDao" class="com.base.dao.ClientNameDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientOwnerDao" class="com.base.dao.ClientOwnerDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientPhoneDao" class="com.base.dao.ClientPhoneDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ClientTixingDao" class="com.base.dao.ClientTixingDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjAttributeDao" class="com.base.dao.ObjAttributeDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjEnumDao" class="com.base.dao.ObjEnumDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjEnumStrDao" class="com.base.dao.ObjEnumStrDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjNameDao" class="com.base.dao.ObjNameDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+
+<bean id="ObjVersionDao" class="com.base.dao.ObjVersionDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjVersionWasteDao" class="com.base.dao.ObjVersionWasteDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SyncPoolDao" class="com.base.dao.SyncPoolDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysAdAreaDao" class="com.base.dao.SysAdAreaDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysAdCityDao" class="com.base.dao.SysAdCityDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysAdProvinceDao" class="com.base.dao.SysAdProvinceDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysMsgDao" class="com.base.dao.SysMsgDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysOrgDao" class="com.base.dao.SysOrgDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="SysWechatDao" class="com.base.dao.SysWechatDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="UserAreaDao" class="com.base.dao.UserAreaDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+
+<bean id="UserBaseDao" class="com.base.dao.UserBaseDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="UserCheckworkDao" class="com.base.dao.UserCheckworkDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="UserExtendDao" class="com.base.dao.UserExtendDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+<bean id="ObjHistoryDao" class="com.base.dao.ObjHistoryDao"><property name="sessionFactory" ref="sessionFactory"></property></bean>
+
+
+
+
+</beans> 
